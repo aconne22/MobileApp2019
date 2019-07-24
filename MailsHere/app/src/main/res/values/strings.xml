@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MailboxSensor</string>
+
+    <!--Main Page-->
+    <string name="title">Mail\'s Here</string>
+    <string name="button">Open Up!</string>
+
+</resources>
