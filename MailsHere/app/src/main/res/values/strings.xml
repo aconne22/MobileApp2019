@@ -5,4 +5,7 @@
     <string name="title">Mail\'s Here</string>
     <string name="button">Open Up!</string>
 
+    <!--Home-->
+    <string name="heading">Check Your Deliveries</string>
+
 </resources>

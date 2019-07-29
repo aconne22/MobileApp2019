@@ -9,22 +9,21 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="182dp"
-        android:layout_height="41dp"
+        android:layout_width="209dp"
+        android:layout_height="43dp"
         android:fontFamily="@font/merienda_one"
         android:text="@string/title"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="28sp"
+        android:textSize="34sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157" />
+        app:layout_constraintVertical_bias="0.156" />
 
     <Button
         android:id="@+id/open_up"
@@ -32,11 +31,11 @@
         android:layout_height="71dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#c3939b"
+        android:background="@drawable/button_one"
         android:fontFamily="@font/antic_slab"
         android:text="@string/button"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
