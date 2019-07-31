@@ -26,8 +26,8 @@
 
     <TextView
         android:id="@+id/heading"
-        android:layout_width="265dp"
-        android:layout_height="48dp"
+        android:layout_width="271dp"
+        android:layout_height="35dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/antic_slab"
@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055" />
+        app:layout_constraintVertical_bias="0.098" />
 
     <TextView
         android:id="@+id/date_display"
@@ -64,22 +64,22 @@
 
     <TextView
         android:id="@+id/time_display"
-        android:layout_width="149dp"
-        android:layout_height="46dp"
+        android:layout_width="270dp"
+        android:layout_height="53dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/antic_slab"
-        android:hint="TIME"
+        android:text="@string/time"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
+        app:layout_constraintHorizontal_bias="0.282"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.736" />
+        app:layout_constraintVertical_bias="0.744" />
 
     <TextView
         android:id="@+id/note_display"
@@ -90,7 +90,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/antic_slab"
-        android:hint="NOTE"
+        android:text="@string/note"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,21 +101,42 @@
         app:layout_constraintVertical_bias="0.895" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="112dp"
-        android:layout_height="60dp"
+        android:id="@+id/note_btn"
+        android:layout_width="118dp"
+        android:layout_height="53dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_one"
-        android:fontFamily="a"
-        android:text="Add Note"
+        android:fontFamily="@font/antic_slab"
+        android:text="@string/note_btn"
+        android:textColor="#000000"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.988" />
+
+    <Button
+        android:id="@+id/view_tbn"
+        android:layout_width="89dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_one"
+        android:fontFamily="@font/antic_slab"
+        android:text="@string/view_btn"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
