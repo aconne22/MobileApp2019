@@ -10,6 +10,7 @@
     <string name="login_btn">Log In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="error">Incorrect Username or Password</string>
 
     <!--Home-->
     <string name="note_btn">Add Note</string>
