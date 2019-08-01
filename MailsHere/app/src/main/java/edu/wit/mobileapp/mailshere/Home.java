@@ -1,5 +1,6 @@
 package edu.wit.mobileapp.mailshere;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ public class Home extends AppCompatActivity {
         private TextView mTime;
         private TextView mNote;
         private Button note_btn;
+        private Button view_btn;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class Home extends AppCompatActivity {
             mTime = (TextView)findViewById(R.id.time_display);
             mNote = (TextView)findViewById(R.id.note_display);
             note_btn = (Button)findViewById(R.id.note_btn);
+            view_btn = (Button) findViewById(R.id.view_btn);
 
             mTime.setVisibility(View.INVISIBLE);
             mNote.setVisibility(View.INVISIBLE);
@@ -37,8 +40,19 @@ public class Home extends AppCompatActivity {
             note_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mTime.setText(getString(R.string.no_time));
-                    mNote.setText(getString(R.string.no_note));
+                    Intent intent = new Intent(getApplicationContext(), EditNote.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Date", mDate.toString());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+
+            view_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent().setClass(Home.this, Note.class);
+                    startActivity(intent);
                 }
             });
 
