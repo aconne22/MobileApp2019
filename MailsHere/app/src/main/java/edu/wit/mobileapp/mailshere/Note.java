@@ -6,26 +6,34 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ListView;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.wit.mobileapp.mailshere.R;
-
 
 public class Note extends AppCompatActivity {
+
+    //Used to set font for ListView items
+    private Typeface listTypeface;
+
+    //Buttons to end activity/add note respectively
+    private Button back_btn;
+    private Button add_btn;
 
     //Array list and adapter to keep track of the list of notes
     static ArrayList<String> notes = new ArrayList<>();
@@ -63,24 +71,64 @@ public class Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
+        Bundle bundle = this.getIntent().getExtras();
+        final String date = bundle.getString("Date");
+
         ListView listView = (ListView)findViewById(R.id.listView);
+
+        back_btn = (Button)findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        add_btn = (Button)findViewById(R.id.add_btn);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditNote.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Date", date.toString());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences("edu.wit.mobileapp.mailshere", Context.MODE_PRIVATE);
         //Getting the Stringset and if null(set empty) will add "click here to edit first note!, or else will display
         //the set
         HashSet<String>set=(HashSet)sharedPreferences.getStringSet("notes",null);
         if(set==null){
-            notes.add("Click here to edit first note!");
+
         }
         else {
             notes= new ArrayList<>(set);
         }
 
 
+        listTypeface = Typeface.createFromAsset(getAssets(), "fonts/AnticSlab-Regular.ttf");
 
+        arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,notes){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                // Cast the list view each item as text view
+                TextView item = (TextView) super.getView(position, convertView, parent);
 
+                // Set the typeface/font for the current item
+                item.setTypeface(listTypeface);
 
-        arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,notes);
+                // Set the item text style to bold
+                item.setTypeface(item.getTypeface(), Typeface.BOLD);
+
+                // Change the item text size
+                item.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+
+                // return the view
+                return item;
+            }
+        };
 
         listView.setAdapter(arrayAdapter);
 

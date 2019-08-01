@@ -21,5 +21,9 @@
     <string name="no_note">NOTE: N/A</string>
     <string name="view_btn">View My Notes</string>
 
+    <!--Note-->
+    <string name="note_page">Your Notes</string>
+    <string name="back">Go Back</string>
+
 
 </resources>

@@ -51,7 +51,10 @@ public class Home extends AppCompatActivity {
             view_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent().setClass(Home.this, Note.class);
+                    Intent intent = new Intent(getApplicationContext(), Note.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Date", mDate.toString());
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });

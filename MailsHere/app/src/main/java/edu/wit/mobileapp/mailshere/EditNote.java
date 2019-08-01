@@ -10,6 +10,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.HashSet;
@@ -18,6 +20,8 @@ import edu.wit.mobileapp.mailshere.Note;
 import edu.wit.mobileapp.mailshere.R;
 
 public class EditNote extends AppCompatActivity {
+
+    private Button add_btn;
 
     int noteId;
 
@@ -41,6 +45,14 @@ public class EditNote extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         String date = bundle.getString("Date");
+
+        add_btn = (Button)findViewById(R.id.add_btn);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         EditText editText = (EditText)findViewById(R.id.editText);
 
