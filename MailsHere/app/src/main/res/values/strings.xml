@@ -1,11 +1,30 @@
 <resources>
-    <string name="app_name">MailboxSensor</string>
+    <string name="app_name">Mail\'s Here</string>
 
     <!--Main Page-->
     <string name="title">Mail\'s Here</string>
     <string name="button">Open Up!</string>
 
+    <!--LogIn-->
+    <string name="user">Please Log In</string>
+    <string name="login_btn">Log In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="error">Incorrect Username or Password</string>
+
     <!--Home-->
+    <string name="note_btn">Add Note</string>
     <string name="heading">Check Your Deliveries</string>
+    <string name="date">SELECT A DATE</string>
+    <string name="time">TIME: </string>
+    <string name="no_time">TIME: N/A</string>
+    <string name="note">NOTE: </string>
+    <string name="no_note">NOTE: N/A</string>
+    <string name="view_btn">View My Notes</string>
+
+    <!--Note-->
+    <string name="note_page">Your Notes</string>
+    <string name="back">Go Back</string>
+
 
 </resources>

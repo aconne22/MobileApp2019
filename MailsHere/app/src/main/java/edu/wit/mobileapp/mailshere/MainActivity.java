@@ -14,13 +14,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Mail's Here");
 
         Button open = (Button)findViewById(R.id.open_up);
 
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent().setClass(MainActivity.this, Home.class);
+                Intent intent = new Intent().setClass(MainActivity.this, LogIn.class);
                 startActivity(intent);
             }
         });
