@@ -57,6 +57,14 @@ public class Home extends AppCompatActivity {
             retrieveData.execute("");
             Log.v(TAG, "retrieveData executed");
 
+            Set keys = dateTimeMap.keySet();
+
+            for (Iterator i = keys.iterator(); i.hasNext(); ) {
+                String key = (String) i.next().toString();
+                String value = (String) dateTimeMap.get(key).toString();
+                Log.v(TAG, "Key " + key + " Value: " + value + ".");
+            }
+
 
 
             mContext = getApplicationContext();
@@ -131,14 +139,17 @@ public class Home extends AppCompatActivity {
                     DBStrings.DATABASE_URL + "/" +
                     DBStrings.DATABASE_NAME;
 
+
             @Override
             protected String doInBackground(String... strings) {
                 Connection connect = null;
                 Statement state = null;
+                Log.v(TAG, "DB_URL: " + DB_URL);
 
                 try {
-                    Class.forName(JDBC_DRIVER);
+                    Class.forName(JDBC_DRIVER).newInstance();
                     connect = DriverManager.getConnection(DB_URL, DBStrings.USERNAME, DBStrings.PASSWORD);
+                    //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/motionsensor", "mobileapp", "mobileapp");
                     state = connect.createStatement();
                     String sql = "SELECT * FROM Mail";
                     ResultSet results = state.executeQuery(sql);
@@ -161,6 +172,10 @@ public class Home extends AppCompatActivity {
 
                 } catch (ClassNotFoundException e) {
                     msg = "Exception thrown; Class Not Found";
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
                     e.printStackTrace();
                 } finally {
 
