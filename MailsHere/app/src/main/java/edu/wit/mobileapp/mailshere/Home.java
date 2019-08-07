@@ -134,7 +134,7 @@ public class Home extends AppCompatActivity {
         private class GetData extends AsyncTask<String,String,String> {
 
             String msg = "";
-            final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+            final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
             final String DB_URL = "jdbc:mysql://" +
                     DBStrings.DATABASE_URL + "/" +
                     DBStrings.DATABASE_NAME;
