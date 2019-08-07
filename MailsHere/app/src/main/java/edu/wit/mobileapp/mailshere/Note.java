@@ -141,8 +141,6 @@ public class Note extends AppCompatActivity {
                 intent.putExtra("noteId",i);
                 startActivity(intent);
 
-
-
             }
         });
 

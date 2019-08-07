@@ -19,7 +19,7 @@
     <string name="time">TIME: </string>
     <string name="no_time">TIME: N/A</string>
     <string name="note">NOTE: </string>
-    <string name="no_note">NOTE: N/A</string>
+    <string name="no_note">NOTE: \n\t\t\t\t\tN/A</string>
     <string name="view_btn">View My Notes</string>
 
     <!--Note-->

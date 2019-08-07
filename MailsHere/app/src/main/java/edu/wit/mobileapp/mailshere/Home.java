@@ -46,6 +46,7 @@ public class Home extends AppCompatActivity {
 
         private Context mContext;
         private ConstraintLayout mConstraintLayout;
+        private ScrollView mScrollView;
         private PopupWindow mPopupWindow;
 
         Map<Date, Time> dateTimeMap = new LinkedHashMap<Date, Time>();
@@ -57,19 +58,21 @@ public class Home extends AppCompatActivity {
 
             mContext = getApplicationContext();
             mConstraintLayout = (ConstraintLayout) findViewById(R.id.home_page);
+            mScrollView = (ScrollView) findViewById(R.id.contents);
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
             View customView = inflater.inflate(R.layout.date_content, null);
+            mScrollView.addView(customView);
             Log.v(TAG, "View inflated");
-            mPopupWindow = new PopupWindow(
-                    customView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
-            Log.v(TAG, "Popup Window created");
+            //mPopupWindow = new PopupWindow(
+              //      customView,
+                //    ViewGroup.LayoutParams.WRAP_CONTENT,
+                  //  ViewGroup.LayoutParams.WRAP_CONTENT
+            //);
+            //Log.v(TAG, "Popup Window created");
 
-            mPopupWindow.setElevation(5.0f);
-            Log.v(TAG, "Elevation set");
+            //mPopupWindow.setElevation(5.0f);
+            //Log.v(TAG, "Elevation set");
 
             mTime = (TextView)customView.findViewById(R.id.time_display);
             mNote = (TextView)customView.findViewById(R.id.note_display);
@@ -128,7 +131,7 @@ public class Home extends AppCompatActivity {
                     GetData retrieveData = new GetData();
                     retrieveData.execute("");
 
-                    mPopupWindow.showAtLocation(mConstraintLayout, Gravity.BOTTOM, -30, 285);
+                    //mPopupWindow.showAtLocation(mConstraintLayout, Gravity.BOTTOM, -30, 285);
                     Log.v(TAG, "The date selected is: " + thisDate);
                     Log.v(TAG, "retrieveData executed");
                     note_btn.setVisibility(View.VISIBLE);
@@ -163,9 +166,9 @@ public class Home extends AppCompatActivity {
                     while(results.next()){
                         Date dateEntry = results.getDate("Date");
                         Time timeEntry = results.getTime("Time");
-                        if (mDate.getText().toString() == dateEntry.toString()) {
-                            mTime.append(" " + timeEntry + "\n");
-                            mNote.setText("N/A");
+                        if (mDate.getText().toString().equals(dateEntry.toString())) {
+                            mTime.append("\n      " + timeEntry);
+                            mNote.setText(getString(R.string.no_note));
                         }
                         Log.v(TAG, "In the resultsSet");
                         Log.v(TAG, "mDate: " + mDate.getText().toString());
