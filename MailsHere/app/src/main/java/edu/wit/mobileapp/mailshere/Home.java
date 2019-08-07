@@ -53,20 +53,6 @@ public class Home extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_home);
 
-            GetData retrieveData = new GetData();
-            retrieveData.execute("");
-            Log.v(TAG, "retrieveData executed");
-
-            Set keys = dateTimeMap.keySet();
-
-            for (Iterator i = keys.iterator(); i.hasNext(); ) {
-                String key = (String) i.next().toString();
-                String value = (String) dateTimeMap.get(key).toString();
-                Log.v(TAG, "Key " + key + " Value: " + value + ".");
-            }
-
-
-
             mContext = getApplicationContext();
             mConstraintLayout = (ConstraintLayout) findViewById(R.id.home_page);
 
@@ -121,6 +107,11 @@ public class Home extends AppCompatActivity {
                     String thisDate = (mm + 1) + "/" + dd + "/" + yyyy;
                     mTime.setText(getString(R.string.time));
                     mNote.setText(getString(R.string.note));
+
+                    GetData retrieveData = new GetData();
+                    retrieveData.execute("");
+                    Log.v(TAG, "retrieveData executed");
+
                     mPopupWindow.showAtLocation(mConstraintLayout, Gravity.BOTTOM, -30, 285);
                     Log.v(TAG, "The date selected is: " + thisDate);
                     mDate.setText(thisDate);
@@ -153,11 +144,14 @@ public class Home extends AppCompatActivity {
                     state = connect.createStatement();
                     String sql = "SELECT * FROM Mail";
                     ResultSet results = state.executeQuery(sql);
+                    Log.v(TAG, "This tag is after connection");
 
                     while(results.next()){
                         Date dateEntry = results.getDate("Date");
                         Time timeEntry = results.getTime("Time");
                         dateTimeMap.put(dateEntry, timeEntry);
+                        Log.v(TAG, "In the resultsSet");
+                        Log.v(TAG, "Date: " + dateEntry + " Time: " + timeEntry);
                     }
 
                     msg = "Complete!";
@@ -207,19 +201,13 @@ public class Home extends AppCompatActivity {
 
             @Override
             protected void onPreExecute(){
-
+                Log.v(TAG, "PreExecute");
             }
 
             @Override
             protected void onPostExecute(String msg){
 
-                Set keys = dateTimeMap.keySet();
-
-                for (Iterator i = keys.iterator(); i.hasNext(); ) {
-                    String key = (String) i.next().toString();
-                    String value = (String) dateTimeMap.get(key).toString();
-                    Log.v(TAG, "Key " + key + " Value: " + value + ".");
-                }
+                Log.v(TAG, "PostExecute");
             }
 
 
