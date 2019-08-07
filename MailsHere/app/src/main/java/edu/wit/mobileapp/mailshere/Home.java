@@ -39,6 +39,8 @@ public class Home extends AppCompatActivity {
 
         private CalendarView mCalendarView;
         private TextView mDate;
+        private TextView mTime;
+        private TextView mNote;
         private Button note_btn;
         private Button view_btn;
 
@@ -69,8 +71,8 @@ public class Home extends AppCompatActivity {
             mPopupWindow.setElevation(5.0f);
             Log.v(TAG, "Elevation set");
 
-            final TextView mTime = (TextView)customView.findViewById(R.id.time_display);
-            final TextView mNote = (TextView)customView.findViewById(R.id.note_display);
+            mTime = (TextView)customView.findViewById(R.id.time_display);
+            mNote = (TextView)customView.findViewById(R.id.note_display);
 
 
             mDate = (TextView)findViewById(R.id.date_display);
@@ -107,16 +109,15 @@ public class Home extends AppCompatActivity {
                     String thisDate = (mm + 1) + "/" + dd + "/" + yyyy;
                     mTime.setText(getString(R.string.time));
                     mNote.setText(getString(R.string.note));
+                    mDate.setText(thisDate);
 
+                    //Database connection
                     GetData retrieveData = new GetData();
                     retrieveData.execute("");
-                    Log.v(TAG, "retrieveData executed");
 
                     mPopupWindow.showAtLocation(mConstraintLayout, Gravity.BOTTOM, -30, 285);
                     Log.v(TAG, "The date selected is: " + thisDate);
-                    mDate.setText(thisDate);
-                    mTime.append(" "+ thisDate);
-                    mNote.append(" "+ thisDate);
+                    Log.v(TAG, "retrieveData executed");
                     note_btn.setVisibility(View.VISIBLE);
                 }
             });
@@ -149,7 +150,10 @@ public class Home extends AppCompatActivity {
                     while(results.next()){
                         Date dateEntry = results.getDate("Date");
                         Time timeEntry = results.getTime("Time");
-                        dateTimeMap.put(dateEntry, timeEntry);
+                        if (mDate.toString() == dateEntry.toString()) {
+                            mTime.append(" "+ timeEntry + "\n");
+                            mNote.setText("N/A");
+                        }
                         Log.v(TAG, "In the resultsSet");
                         Log.v(TAG, "Date: " + dateEntry + " Time: " + timeEntry);
                     }
