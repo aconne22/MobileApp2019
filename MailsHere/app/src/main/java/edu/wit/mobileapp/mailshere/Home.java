@@ -163,11 +163,12 @@ public class Home extends AppCompatActivity {
                     while(results.next()){
                         Date dateEntry = results.getDate("Date");
                         Time timeEntry = results.getTime("Time");
-                        if (mDate.toString() == dateEntry.toString()) {
-                            mTime.append(" "+ timeEntry + "\n");
+                        if (mDate.getText().toString() == dateEntry.toString()) {
+                            mTime.append(" " + timeEntry + "\n");
                             mNote.setText("N/A");
                         }
                         Log.v(TAG, "In the resultsSet");
+                        Log.v(TAG, "mDate: " + mDate.getText().toString());
                         Log.v(TAG, "Date: " + dateEntry + " Time: " + timeEntry);
                     }
 
