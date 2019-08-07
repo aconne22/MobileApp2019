@@ -106,7 +106,20 @@ public class Home extends AppCompatActivity {
             mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                 @Override
                 public void onSelectedDayChange(CalendarView view, int yyyy, int mm, int dd) {
-                    String thisDate = (mm + 1) + "/" + dd + "/" + yyyy;
+                    int mNew = mm+1;
+                    String thisDate;
+                    if (mNew < 10 && dd < 10) {
+                        thisDate = yyyy + "-0" + (mNew) + "-0" + dd;
+                    }
+                    else if (mNew < 10) {
+                        thisDate = yyyy + "-0" + (mNew) + "-" + dd;
+                    }
+                    else if (dd < 10) {
+                        thisDate = yyyy + "-" + (mNew) + "-0" + dd;
+                    }
+                    else {
+                        thisDate = yyyy + "-" + (mNew) + "-" + dd;
+                    }
                     mTime.setText(getString(R.string.time));
                     mNote.setText(getString(R.string.note));
                     mDate.setText(thisDate);
