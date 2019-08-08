@@ -7,9 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +24,20 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 
 public class Note extends AppCompatActivity {
+
+    private static final String TAG = "MyApp";
 
     //Used to set font for ListView items
     private Typeface listTypeface;
@@ -71,6 +82,9 @@ public class Note extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
+        GetNoteData retrieveData = new GetNoteData();
+        retrieveData.execute("");
+
         Bundle bundle = this.getIntent().getExtras();
         final String date = bundle.getString("Date");
 
@@ -104,7 +118,7 @@ public class Note extends AppCompatActivity {
 
         }
         else {
-            notes= new ArrayList<>(set);
+            notes = new ArrayList<>(set);
         }
 
 
@@ -113,19 +127,10 @@ public class Note extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,notes){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                // Cast the list view each item as text view
                 TextView item = (TextView) super.getView(position, convertView, parent);
-
-                // Set the typeface/font for the current item
                 item.setTypeface(listTypeface);
-
-                // Set the item text style to bold
                 item.setTypeface(item.getTypeface(), Typeface.BOLD);
-
-                // Change the item text size
                 item.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-
-                // return the view
                 return item;
             }
         };
@@ -141,8 +146,6 @@ public class Note extends AppCompatActivity {
                 intent.putExtra("noteId",i);
                 startActivity(intent);
 
-
-
             }
         });
 
@@ -153,9 +156,9 @@ public class Note extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                //setting a vraible so there is no conficlt with the int i in the onclick method below
+                //setting a variable so there is no conflict with the int i in the onclick method below
                 final int deleteItem = i;
-                //creates a dilog box wwhen the user does a longpress wo bring up a mini alert asking them if they are sure if they
+                //creates a dialog box when the user does a longpress we bring up a mini alert asking them if they are sure if they
                 //want to delete this note.
                 new AlertDialog.Builder(Note.this)
                         .setIcon(android.R.drawable.ic_dialog_alert).setTitle("Are you sure?")
@@ -185,5 +188,104 @@ public class Note extends AppCompatActivity {
         });
     }
 
+    private class GetNoteData extends AsyncTask<String,String,String> {
+
+        //setting up class variables
+        String msg = "";
+        final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+        //creating a full DB_URL string
+        final String DB_URL = "jdbc:mysql://" +
+                DBStrings.DATABASE_URL + "/" +
+                DBStrings.DATABASE_NAME;
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            Connection connect = null;
+            Statement state = null;
+            Log.v(TAG, "DB_URL: " + DB_URL);
+
+            try {
+                //initialize the driver necessary for connecting to the DB
+                Class.forName(JDBC_DRIVER).newInstance();
+
+                //attempt connection
+                connect = DriverManager.getConnection(DB_URL, DBStrings.USERNAME, DBStrings.PASSWORD);
+                state = connect.createStatement();
+                String sql = "SELECT Content FROM Note";
+
+                //run query
+                ResultSet results = state.executeQuery(sql);
+
+                while(results.next()){
+                    //parse the results
+                    String noteEntry = results.getString("Content");
+                    Log.v(TAG, "Note: " + noteEntry);
+                    Log.v(TAG, "In the resultsSet");
+                    notes.add(noteEntry);
+
+
+                }
+
+                msg = "Complete!";
+
+                //close everything
+                results.close();
+                state.close();
+                connect.close();
+
+            } catch (SQLException connError) {
+                msg = "Exception thrown for JDBC.";
+                connError.printStackTrace();
+
+            } catch (ClassNotFoundException e) {
+                msg = "Exception thrown; Class Not Found";
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } finally {
+
+                try {
+
+                    if(state != null){
+                        state.close();
+                    }
+
+                } catch (SQLException e) {
+                    msg = "Exception when closing state";
+                    e.printStackTrace();
+                }
+
+                try {
+
+                    if(connect != null){
+                        connect.close();
+                    }
+
+                } catch (SQLException e) {
+                    msg = "Exception when closing connect";
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPreExecute(){
+            Log.v(TAG, "PreExecute");
+        }
+
+        @Override
+        protected void onPostExecute(String msg){
+
+            Log.v(TAG, "PostExecute");
+        }
+
+
+    }
 
 }
