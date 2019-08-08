@@ -190,8 +190,11 @@ public class Note extends AppCompatActivity {
 
     private class GetNoteData extends AsyncTask<String,String,String> {
 
+        //setting up class variables
         String msg = "";
         final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+        //creating a full DB_URL string
         final String DB_URL = "jdbc:mysql://" +
                 DBStrings.DATABASE_URL + "/" +
                 DBStrings.DATABASE_NAME;
@@ -204,15 +207,19 @@ public class Note extends AppCompatActivity {
             Log.v(TAG, "DB_URL: " + DB_URL);
 
             try {
+                //initialize the driver necessary for connecting to the DB
                 Class.forName(JDBC_DRIVER).newInstance();
+
+                //attempt connection
                 connect = DriverManager.getConnection(DB_URL, DBStrings.USERNAME, DBStrings.PASSWORD);
-                //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/motionsensor", "mobileapp", "mobileapp");
                 state = connect.createStatement();
                 String sql = "SELECT Content FROM Note";
+
+                //run query
                 ResultSet results = state.executeQuery(sql);
-                Log.v(TAG, "This tag is after connection");
 
                 while(results.next()){
+                    //parse the results
                     String noteEntry = results.getString("Content");
                     Log.v(TAG, "Note: " + noteEntry);
                     Log.v(TAG, "In the resultsSet");
@@ -223,6 +230,7 @@ public class Note extends AppCompatActivity {
 
                 msg = "Complete!";
 
+                //close everything
                 results.close();
                 state.close();
                 connect.close();

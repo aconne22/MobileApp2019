@@ -45,9 +45,7 @@ public class Home extends AppCompatActivity {
         private Button view_btn;
 
         private Context mContext;
-        private ConstraintLayout mConstraintLayout;
         private ScrollView mScrollView;
-        private PopupWindow mPopupWindow;
 
         Map<Date, Time> dateTimeMap = new LinkedHashMap<Date, Time>();
 
@@ -57,7 +55,6 @@ public class Home extends AppCompatActivity {
             setContentView(R.layout.activity_home);
 
             mContext = getApplicationContext();
-            mConstraintLayout = (ConstraintLayout) findViewById(R.id.home_page);
             mScrollView = (ScrollView) findViewById(R.id.contents);
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -67,11 +64,11 @@ public class Home extends AppCompatActivity {
 
             mTime = (TextView)customView.findViewById(R.id.time_display);
             mNote = (TextView)customView.findViewById(R.id.note_display);
-
-
             mDate = (TextView)findViewById(R.id.date_display);
+
             note_btn = (Button)findViewById(R.id.note_btn);
             view_btn = (Button) findViewById(R.id.view_btn);
+
             note_btn.setVisibility(View.GONE);
 
             note_btn.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +111,7 @@ public class Home extends AppCompatActivity {
                     else {
                         thisDate = yyyy + "-" + (mNew) + "-" + dd;
                     }
+                    Log.v(TAG, "The date selected is: " + thisDate);
                     mTime.setText(getString(R.string.time));
                     mNote.setText(getString(R.string.note));
                     mDate.setText(thisDate);
@@ -121,9 +119,6 @@ public class Home extends AppCompatActivity {
                     //Database connection
                     GetCalendarData retrieveData = new GetCalendarData();
                     retrieveData.execute("");
-
-                    Log.v(TAG, "The date selected is: " + thisDate);
-                    Log.v(TAG, "retrieveData executed");
                     note_btn.setVisibility(View.VISIBLE);
                 }
             });
@@ -131,8 +126,11 @@ public class Home extends AppCompatActivity {
 
         private class GetCalendarData extends AsyncTask<String,String,String> {
 
+            //setting up class variables
             String msg = "";
             final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+            //making full DB_URL string
             final String DB_URL = "jdbc:mysql://" +
                     DBStrings.DATABASE_URL + "/" +
                     DBStrings.DATABASE_NAME;
@@ -145,39 +143,40 @@ public class Home extends AppCompatActivity {
                 Log.v(TAG, "DB_URL: " + DB_URL);
 
                 try {
+                    //initialize JDBC driver for connecting to DB
                     Class.forName(JDBC_DRIVER).newInstance();
+
+                    //attempt connection
                     connect = DriverManager.getConnection(DB_URL, DBStrings.USERNAME, DBStrings.PASSWORD);
-                    //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/motionsensor", "mobileapp", "mobileapp");
                     state = connect.createStatement();
                     String sql = "SELECT * FROM Mail";
+
+                    //run query
                     ResultSet results = state.executeQuery(sql);
-                    Log.v(TAG, "This tag is after connection");
 
                     while(results.next()){
+                        //parse the results of the query
                         Date dateEntry = results.getDate("Date");
                         Time timeEntry = results.getTime("Time");
                         if (mDate.getText().toString().equals(dateEntry.toString())) {
                             mTime.append("\n      " + timeEntry);
                         }
-                        Log.v(TAG, "In the resultsSet");
-                        Log.v(TAG, "mDate: " + mDate.getText().toString());
                         Log.v(TAG, "Date: " + dateEntry + " Time: " + timeEntry);
                     }
 
+                    //now we do the Notes in a nearly identical fashion
                     String sql2 = "SELECT Content FROM Note";
                     ResultSet results2 = state.executeQuery(sql2);
-                    Log.v(TAG, "This tag is after connection");
 
                     while(results2.next()){
                         String noteEntry = results2.getString("Content");
                         mNote.append("\n      " + noteEntry);
-                        Log.v(TAG, "In the resultsSet");
                         Log.v(TAG, "Note: " + noteEntry);
                     }
 
                     msg = "Complete!";
 
-                    results.close();
+                    results2.close();
                     state.close();
                     connect.close();
 
